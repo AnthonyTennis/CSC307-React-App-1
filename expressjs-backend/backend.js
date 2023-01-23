@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 5001;
+const cors = require('cors');
 const users = { 
     users_list :
     [
@@ -33,6 +34,7 @@ const users = {
  }
 
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
