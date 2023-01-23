@@ -78,8 +78,9 @@ app.get('/users/:id', (req, res) => {
 
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
+    userToAdd['id'] = generateId();
     addUser(userToAdd);
-    res.status(200).end();
+    res.status(201).send(userToAdd).end();
 });
 
 app.delete('/users/:id', (req, res) => {
@@ -89,7 +90,7 @@ app.delete('/users/:id', (req, res) => {
         res.status(404).send('Resource not found.');
     else {
         deleteUser(id);
-        res.status(200).end();
+        res.status(204).end();
     }
 });
 
@@ -105,6 +106,19 @@ function addUser(user){
 
 function findUserById(id) {
     return users['users_list'].filter( (user) => user['id'] === id);
+}
+
+function generateId() {
+    let id = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers = '0123456789';
+    for (let i = 0; i < 3; i++) {
+        id += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    for (let i = 0; i < 3; i++) {
+        id += numbers.charAt(Math.floor(Math.random() * numbers.length));
+    }
+    return id;
 }
 
 const findUserByName = (name) => { 
